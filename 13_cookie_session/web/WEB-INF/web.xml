@@ -14,7 +14,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>com.atguigu.servlet.LoginServlet</servlet-class>
+        <servlet-class>com.atguigu.servlet.RegistServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
