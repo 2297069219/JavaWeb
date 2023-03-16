@@ -18,15 +18,8 @@
     <c:choose>
         <%-- 情况一--%>
         <c:when test="${requestScope.page.pageTotal <= 5}">
-            <c:forEach begin="1" end="${requestScope.page.pageTotal}" var="i">
-                <c:if test="${i==requestScope.page.pageNo}">
-                    【${i}】
-                </c:if>
-                <c:if test="${i!=requestScope.page.pageNo}">
-                    <a href="${requestScope.page.url}&pageNo=${i}">${i}</a>
-                </c:if>
-
-            </c:forEach>
+            <c:set var="begin" value="1"/>
+            <c:set var="end" value="${requestScope.page.pageTotal}"/>
         </c:when>
         <%--情况二--%>
         <c:when test="${requestScope.page.pageTotal>5}">
