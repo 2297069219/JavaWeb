@@ -47,6 +47,31 @@ public class ClientBookServlet extends BaseServlet{
 
     }
 
+   /**
+     * 处理分页功能
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    protected void pageByPrice(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //1、获取请求参数pageNo pageSize
+        int pageNo= WebUtils.parseInt(req.getParameter("pageNo"),1);
+        int pageSize=WebUtils.parseInt(req.getParameter("pageSize"), Page.PAGE_SIZE);
+        int min=WebUtils.parseInt(req.getParameter("min"),0);
+        int max=WebUtils.parseInt(req.getParameter("max"),Integer.MAX_VALUE);
+
+        //2、调用page（pageNo，pageSize）
+        Page<Book> page=bookService.pageByPrice(pageNo,pageSize,min,max);
+        page.setUrl("client/bookServlet?action=pageByPrice");
+
+        //3、保存到Request
+        req.setAttribute("page",page);
+        //4、请求转发到book_manage.jsp
+        req.getRequestDispatcher("/pages/client/index.jsp").forward(req,resp);
+
+    }
+
 
 
 }
