@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+	<script type="text/javascript" src="../script/jquery-1.7.2.js"></script>
+	<script type="text/javascript">
+		window.onload=function(){
+			var btnObj = document.getElementById("btn01");
+			btnObj.onclick=function () {
+				alert("  ");
+			}
+		};
+		$(function () {
+			var $btnObj=$("#btnId");
+			alert("jQuery单击事件");
+
+		});
+		$(function(){
+
+
+			$("\t<div>\n" +
+					"\t\t<<sapn>ok</sapn>\n" +
+					"\t</div>");
+			alert($("button").length);
+		});
+	</script>
+</head>
+<body>
+	<div>
+		<<sapn>ok</sapn>
+	</div>
+	<button id="btnId">SayHello</button>
+
+</body>
+</html>

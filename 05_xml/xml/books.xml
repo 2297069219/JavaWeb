@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- <？xml version="1.0" -->
+<books>
+    <book sn="SN1234567889"><!-- sn 序列号-->
+        <name>时间简史</name>
+        <author>霍金</author>
+        <price>75</price>
+    </book>
+    <book sn="SN1234567822"><!-- sn 序列号-->
+         <name>java从入门到放弃</name>
+        <author>
+            <![CDATA[<<<>>>]]>
+            $lt;哈哈哈老师$gt;</author>
+        <price>9.9</price>
+    </book>
+    <book sn="SN123444444" name="辟邪剑谱" author="林平之" price="1000"/>
+</books>

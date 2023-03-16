@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        function onloadFun(){
+            alert("ok");
+        }
+        window.onload=function(){
+            alert("动态注册");
+        }
+        function onclickFun(){
+            alert("静态"):
+            var pObj=document.getElementById("w");
+            var pText=pObj.value;
+            var patt=/^\w{5,12}$;
+            let passwordSpanObj = document.getElementById("passwordSpan");
+            alert(passwordSpanObj.innerHTML);
+            if()
+            if(patt.test(pText)){
+                alert("用户名合法");
+                passwordSpanObj.innerHTML="true";
+            }else{
+                alert("illegal");
+                passwordSpanObj.innerHTML="false";
+            }
+        }
+        window.onload=function(){
+            var btnObj=document.getElementById("btn01");
+            btnObj.onclick=function(){
+                alert("dongtaizhuce");
+            }
+        }
+        function onblurFun(){
+            console.log("静态注册失去焦点");
+        }
+        window.onload=function(){
+            var passwordObj=document.getElementById("w");
+            passwordObj.onblue=function () {
+                console.log("动态");
+            }
+        }
+        function onchangeFun() {
+            alert("change");
+        }
+        window.onload=function(){
+            let selObj= document.getElementById(`sel01`);
+            selObj.onchange=function(){
+                alert("cc");
+            }
+        }
+
+        function onsubmitFun(){
+            alert("  ");
+            return false;
+        }
+    </script>
+</head>
+<!--<body onload="onloadFun();">-->
+<body>
+
+    <button onclick="onclickFun()">按钮一</button>
+    <button id="btn01">按钮二</button>
+    用户名:<input type="text" onblur=""><br/>
+    密码:<input type="text" id="w" ><br/>
+    <span id="passwordSpan" style="color:red;">密码不合法
+        <img src="right.png" width="18" height="18"><span/>
+    <select onchange="onchangeFun()">
+        <option>hh</option>
+        <option>kk</option>
+        <option>ii</option>
+    </select>
+    <select id="sel01">
+        <option>hh</option>
+        <option>kk</option>
+        <option>ii</option>
+    </select>
+
+
+    <form action="http://localhost:8080" method="get" onsubmit="return onsubmitFun();">
+
+    </form>
+</body>
+</html>

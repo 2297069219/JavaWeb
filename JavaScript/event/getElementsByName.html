@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        function checkAll() {
+            var hobbies=document.getElementsByName("hobby");
+            for(var i=0;i<hobbies.length;i++){
+                hobbies[i].checked=true;
+            }
+        }
+        function checkNo() {
+            var hobbies=document.getElementsByName("hobby");
+            for(var i=0;i<hobbies.length;i++){
+                hobbies[i].checked=false;
+            }
+        }
+        function checkAll() {
+            var hobbies=document.getElementsByName("hobby");
+            for(var i=0;i<hobbies.length;i++){
+                if(hobbies[i].checked)hobbies[i].checked=false;
+                else{
+                    hobbies[i].checked=true;
+                }
+            }
+        }
+        window.onload=function(){
+
+            var divObj=document.createElement("div");
+            divObj.innerHTML="国哥，ok·";
+            document.body.appendChild(divObj);
+        }
+
+    </script>
+</head>
+<body>
+
+    <input type="checkbox" name="hobby" value="cpp">C++
+    <input type="checkbox" name="hobby" value="cp">C+
+    <input type="checkbox" name="hobby" value="c">C
+    <br/>
+    <button onclick="checkAll()">全选</button>
+    <button onclick="checkNo()">全不选</button>
+    <button onclick="checkReverse()">反选</button>
+</body>
+</html>
