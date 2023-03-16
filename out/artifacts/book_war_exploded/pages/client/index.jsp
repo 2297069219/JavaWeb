@@ -8,6 +8,18 @@
 
 	<%-- 静态包含 base标签 css样式 jQuery文件--%>
 	<%@ include file="/pages/common/head.jsp"%>
+
+	<script type="text/javascript">
+		$(function () {
+			//this 当前正在响应的dom对象
+			//atttr 设置或获取
+			$("button.addToCart").click(function () {
+				var bookId=$(this).attr("bookId");
+				alert("ok");
+				location.href="http://localhost:8080/book/cartServlet?action=addItem&id="+bookId;
+			});
+		});
+	</script>
 </head>
 <body>
 	
@@ -15,8 +27,18 @@
 			<img class="logo_img" alt="" src="static/img/logo.gif" >
 			<span class="wel_word">网上书城</span>
 			<div>
-				<a href="pages/user/login.jsp">登录</a> |
-				<a href="pages/user/regist.jsp">注册</a> &nbsp;&nbsp;
+				<%--如果用户没有登录 显示 【登录 注册】菜单--%>
+				<c:if test="${empty sessionScope.user}">
+					<a href="pages/user/login.jsp">登录</a> |
+					<a href="pages/user/regist.jsp">注册</a> &nbsp;
+				</c:if>
+					<%-- 如果成功登录，就显示登录成功后的信息--%>
+				<c:if test="${empty sessionScope.user}">
+					<span>欢迎<span class="um_span">${sessionScope.user.username}</span>光临尚硅谷书城</span>
+					<a href="pages/order/order.jsp">我的订单</a>
+					<a href="userServlet?action=logout">注销</a>&nbsp;&nbsp;
+				</c:if>
+&nbsp;
 				<a href="pages/cart/cart.jsp">购物车</a>
 				<a href="pages/manager/manager.jsp">后台管理</a>
 			</div>
@@ -65,7 +87,7 @@
 						<span class="sp2">${book.stock}</span>
 					</div>
 					<div class="book_add">
-						<button>加入购物车</button>
+						<button bookId="${book.id}" class="addToCart" >加入购物车</button>
 					</div>
 				</div>
 			</div>

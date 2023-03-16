@@ -16,6 +16,8 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Map;
 
+import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
+
 /**
  * ClassName: UserServlet
  * Package: com.atguigu.web
@@ -51,6 +53,9 @@ public class UserServlet extends BaseServlet {
             req.getRequestDispatcher("/pages/user/login.jsp").forward(req,resp);
 
         }else{
+            //保存用户登录信息
+            req.getSession().setAttribute("user",loginUser);
+
             //login_success.jsp
             req.getRequestDispatcher("/pages/user/login_success.jsp").forward(req,resp);
 
@@ -59,6 +64,8 @@ public class UserServlet extends BaseServlet {
 
     }
     protected void regist(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String token = (String) req.getSession().getAttribute(KAPTCHA_SESSION_KEY);
+        req.getSession().removeAttribute(KAPTCHA_SESSION_KEY);
 
         //1请求参数
         String username = req.getParameter("username");
@@ -69,7 +76,7 @@ public class UserServlet extends BaseServlet {
         User user=(User)WebUtils.copyParamToBean(req.getParameterMap(),new User());
 
         //写死
-        if("abcde".equalsIgnoreCase(code)){
+        if(token!=null&&token.equalsIgnoreCase(code)){
 
             if(userService.existsUsername(username)){
                 //不可用
@@ -89,6 +96,14 @@ public class UserServlet extends BaseServlet {
             System.out.println("验证码["+code+"]错误");
             req.getRequestDispatcher("/pages/user/regist.jsp").forward(req,resp);
         }
+
+    }
+
+    protected void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //1、销毁Session
+        //2、重定向
+        req.getSession().invalidate();
+        resp.sendRedirect(req.getContextPath());
 
     }
 

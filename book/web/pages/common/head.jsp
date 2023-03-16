@@ -16,7 +16,7 @@
             +"/";
     pageContext.setAttribute("basePath",basePath);
 %>
-<%=basePath%>
+<%--<%=basePath%>--%>
 <!-- base 固定相对路径-->
 <base href="<%=basePath%>">
 <link type="text/css" rel="stylesheet" href="static/css/style.css" >

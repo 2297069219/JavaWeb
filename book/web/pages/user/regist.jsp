@@ -13,6 +13,17 @@
 
 
 		$(function(){
+
+			$("#code_img").click(function(){
+				//在时间响应的function中 this表示当前正在响应的事件dom对象
+				//src 验证码的img标签 路径 可读可写 赋值可重新发起请求 ie 火狐第一次不行
+				//浏览器 客户端 为了让请求速度更快 每次请求的保存在缓存中 磁盘 内存 浏览器端
+				//服务器Tomcat 生成验证码图片 拿最后的请求当文件路径 kaptcha.jpg=返回的内容
+				//直接从浏览器缓存中返回 跳过缓存后去图片 缓存名称最后的资源名和参数组成
+				//?时间戳
+				this.src="${basePath}/kaptcha.jpg?="+new Date();
+			});
+
 			$("#sub_btn").click(function () {
 				//用户名 正则表达式 提示
 				var usernameText = $("#username").val();
@@ -116,8 +127,8 @@
 									<br />
 									<br />
 									<label>验证码：</label>
-									<input class="itxt" type="text" name="code" style="width: 150px;"  id="code" value="abcde"/>
-									<img alt="" src="static/img/code.bmp" style="float: right; margin-right: 40px">
+									<input class="itxt" type="text" name="code" style="width: 80px;"  id="code" />
+									<img id="code_img" alt="" src="kaptcha.jpg" style="float: right; margin-right: 40px; width:110px; height:30px;">
 									<br />
 									<br />
 									<input type="submit" value="注册" id="sub_btn" />
