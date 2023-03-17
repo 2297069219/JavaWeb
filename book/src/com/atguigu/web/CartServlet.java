@@ -25,6 +25,29 @@ public class CartServlet extends BaseServlet{
 
     private BookService bookService=new BookServiceImpl();
 
+
+    /**
+     * 删除商品项
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    protected void deleteItem(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //编号发送给服务器
+        int id=WebUtils.parseInt(req.getParameter("id"),0);
+        //获取购物车对象
+        Cart cart = (Cart) req.getSession().getAttribute("cart");
+        if(cart!=null){
+            //删除购物车商品项
+            cart.deleteItem(id);
+            //重定向原来页面
+            resp.sendRedirect(req.getHeader("Referer"));
+        }
+
+
+
+    }
     /**
      * 加入购物车
      * @param req
@@ -45,7 +68,9 @@ public class CartServlet extends BaseServlet{
         cart.addItem(cartItem);
 
         System.out.println(cart);
-        resp.sendRedirect(req.getContextPath());
+
+        //重定向到原来的页面
+        resp.sendRedirect(req.getHeader("Referer"));
 
 
     }
