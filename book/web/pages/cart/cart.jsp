@@ -8,6 +8,36 @@
 
 	<%-- 静态包含 base标签 css样式 jQuery文件--%>
 	<%@ include file="/pages/common/head.jsp"%>
+	<script type="text/javascript">
+		$(function(){
+			//绑定单击事件
+			$("a.deleteItem").click(function(){
+				//当前响应的dom对象         a      td      td       name text
+				return confirm("你确定要删除【"+$(this).parent().parent().find("td:first").text()+"]吗？")
+			});
+
+			$("#clearCart").click(function () {
+				return confirm("你确定清空购物车吗？");
+			});
+			//失去焦点事件 ==onChange 事件 变化响应 判断 事件
+			$("input.updateCount").change(function(){
+				//提示用户确定修改
+				var name=$(this).parent().parent().find("td:first").text();
+				var count=this.value;
+				var id=$(this).attr("bookId");
+				 if(confirm("你确定将【"+name+"】商品数量修改为："+count+"吗？")){
+				 	//发起请求给服务器修改
+					 location.href="http://localhost:8080/book/cartServlet?action=updateCount&count="+count+"&id="+id;
+
+				 }else{
+				 	//defaultValue属性是表单项的默认属性值value 输入的原来的value
+				 	this.value=this.defaultValue;
+				 }
+
+			});
+
+		});
+	</script>
 
 </head>
 <body>
@@ -44,10 +74,15 @@
 			<c:forEach items="${sessionScope.cart.items}" var="entry">
 				<tr>
 					<td>${entry.value.name}</td>
-					<td>${entry.value.count}</td>
+					<td>${entry.value.count}
+						<input class="updateCount" style="width: 80px;"
+							   <%--自定义属性 需要写--%>
+							   bookId="${entry.value.id}"
+							   type="text" value="${entry.value.count}"/>
+					</td>
 					<td>${entry.value.price}</td>
 					<td>${entry.value.totalPrice}</td>
-					<td><a href="cartServlet?action=deleteItem&id=${entry.value.id}">删除</a></td>
+					<td><a class="deleteItem" href="cartServlet?action=deleteItem&id=${entry.value.id}">删除</a></td>
 				</tr>
 
 			</c:forEach>
@@ -59,7 +94,7 @@
 		<div class="cart_info">
 			<span class="cart_span">购物车中共有<span class="b_count">${sessionScope.cart.totalCount}</span>件商品</span>
 			<span class="cart_span">总金额<span class="b_price">${sessionScope.cart.totalPrice}</span>元</span>
-			<span class="cart_span"><a href="#">清空购物车</a></span>
+			<span class="cart_span"><a id="clearCart" href="cartServlet?action=clear">清空购物车</a></span>
 			<span class="cart_span"><a href="pages/cart/checkout.jsp">去结账</a></span>
 		</div>
 		</c:if>
