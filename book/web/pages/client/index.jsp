@@ -36,7 +36,7 @@
 					<a href="pages/user/regist.jsp">注册</a> &nbsp;
 				</c:if>
 					<%-- 如果成功登录，就显示登录成功后的信息--%>
-				<c:if test="${empty sessionScope.user}">
+				<c:if test="${not empty sessionScope.user}">
 					<span>欢迎<span class="um_span">${sessionScope.user.username}</span>光临尚硅谷书城</span>
 					<a href="pages/order/order.jsp">我的订单</a>
 					<a href="userServlet?action=logout">注销</a>&nbsp;&nbsp;
@@ -56,11 +56,23 @@
 						<input type="submit" value="查询" />
 				</form>
 			</div>
+
 			<div style="text-align: center">
-				<span>您的购物车中有3件商品</span>
-				<div>
-					您刚刚将<span style="color: red">时间简史</span>加入到了购物车中
-				</div>
+				<c:if test="${empty sessionScope.cart.items}">
+					<%-- 购物车空的输出--%>
+					<span></span>
+					<div>
+							<%--取决于产品经理--%>
+						<span style="color: red">当前购物车为空</span>
+					</div>
+				</c:if>
+				<c:if test="${not empty sessionScope.cart.items}">
+					<%-- 购物车非空的输出--%>
+					<span>您购物车中有${sessionScope.cart.totalCount}件商品</span>
+					<div>
+						您刚刚将<span style="color: red">${sessionScope.lastName}</span>加入到了购物车中
+					</div>
+				</c:if>
 			</div>
 
 			<c:forEach items="${requestScope.page.items}" var="book">
@@ -83,7 +95,7 @@
 					</div>
 					<div class="book_sales">
 						<span class="sp1">销量:</span>
-						<span class="sp2">${book.sales}}</span>
+						<span class="sp2">${book.sales}</span>
 					</div>
 					<div class="book_amount">
 						<span class="sp1">库存:</span>
