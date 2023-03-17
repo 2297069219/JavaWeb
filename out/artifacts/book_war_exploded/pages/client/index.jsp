@@ -14,8 +14,11 @@
 			//this 当前正在响应的dom对象
 			//atttr 设置或获取
 			$("button.addToCart").click(function () {
+				/**
+				 * this dom 对象
+				 * @type {jQuery}
+				 */
 				var bookId=$(this).attr("bookId");
-				alert("ok");
 				location.href="http://localhost:8080/book/cartServlet?action=addItem&id="+bookId;
 			});
 		});
