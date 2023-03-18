@@ -1,11 +1,10 @@
-package com.atguigu.web;
+package com.atguigu.servlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -28,7 +27,7 @@ public abstract class BaseServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //post 中中文乱码问题
         req.setCharacterEncoding("UTF-8");
-        //响应中中文乱码问题
+        //响应中中文乱码问题 setContentType(text/html;
         resp.setContentType("text/html; charset=utf-8");
 
         String action=req.getParameter("action");

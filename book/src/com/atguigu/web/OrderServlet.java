@@ -46,14 +46,7 @@ public class OrderServlet extends BaseServlet {
 
         Integer userId = loginUser.getId();
 
-        String orderId = null;
-        try {
-            orderId = orderService.createOrder(cart, userId);
-            JdbcUtils.commitAndClose();
-        } catch (Exception e) {
-            JdbcUtils.rollbackAndClose();
-            e.printStackTrace();
-        }
+        String orderId = orderService.createOrder(cart, userId);
 
 //        req.setAttribute("orderId",orderId);
 

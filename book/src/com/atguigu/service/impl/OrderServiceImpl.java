@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
         //保存订单
         orderDao.saveOrder(order);
 
-        int i=12/0;
+        //int i=12/0;
 
         //遍历购物车中每一个商品项 保存到数据库中
         for(Map.Entry<Integer, CartItem> entry:cart.getItems().entrySet()){
