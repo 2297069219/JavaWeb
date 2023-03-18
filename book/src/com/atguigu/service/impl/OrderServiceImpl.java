@@ -29,6 +29,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public String createOrder(Cart cart, Integer userId) {
+
+        System.out.println("OrderServiceImpl程序在【"+Thread.currentThread().getName()+"】中");
+
         //唯一性时间戳
         String orderId=System.currentTimeMillis()+""+userId;
         //创建一个订单对象
@@ -36,6 +39,9 @@ public class OrderServiceImpl implements OrderService {
 
         //保存订单
         orderDao.saveOrder(order);
+
+        //int i=12/0;
+
         //遍历购物车中每一个商品项 保存到数据库中
         for(Map.Entry<Integer, CartItem> entry:cart.getItems().entrySet()){
             //获取每一个商品项

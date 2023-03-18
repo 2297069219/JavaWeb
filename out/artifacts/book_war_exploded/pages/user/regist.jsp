@@ -14,6 +14,21 @@
 
 		$(function(){
 
+
+			$("#username").blur(function () {
+				var username=this.name;
+
+				$.getJSON("http://localhost:8080/book/userServlet","action=ajaxExistsUsername&username="+username,function(data){
+					if(data.existsUsername){
+						$("span.errorMsg").text("用户名已存在！");
+					}else{
+						$("span.errorMsg").text("用户名可用！");
+					}
+				});
+
+			});
+
+
 			$("#code_img").click(function(){
 				//在时间响应的function中 this表示当前正在响应的事件dom对象
 				//src 验证码的img标签 路径 可读可写 赋值可重新发起请求 ie 火狐第一次不行

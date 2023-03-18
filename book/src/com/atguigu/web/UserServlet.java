@@ -4,6 +4,7 @@ import com.atguigu.pojo.User;
 import com.atguigu.service.UserService;
 import com.atguigu.service.impl.UserServiceImpl;
 import com.atguigu.utils.WebUtils;
+import com.google.gson.Gson;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
@@ -30,13 +32,28 @@ import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
 public class UserServlet extends BaseServlet {
     private UserService userService=new UserServiceImpl();
 
-    /**
-     * 处理登录的功能
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
-     */
+    protected void ajaxExistsUsername(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //
+        String username = req.getParameter("username");
+        boolean existsUsername = userService.existsUsername(username);
+        //封装为map对象
+        Map<String,Object> resultMap=new HashMap<>();
+        resultMap.put("existsUsername",existsUsername);
+
+        Gson gson=new Gson();
+        String resultMapJsonString = gson.toJson(resultMap);
+        resp.getWriter().write(resultMapJsonString);
+
+    }
+
+
+        /**
+         * 处理登录的功能
+         * @param req
+         * @param resp
+         * @throws ServletException
+         * @throws IOException
+         */
     protected void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         //1获取请求参数

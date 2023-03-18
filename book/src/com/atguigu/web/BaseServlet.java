@@ -28,7 +28,7 @@ public abstract class BaseServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //post 中中文乱码问题
         req.setCharacterEncoding("UTF-8");
-        //响应中中文乱码问题
+        //响应中中文乱码问题 resp.setContentType("text/html; charset=utf-8
         resp.setContentType("text/html; charset=utf-8");
 
         String action=req.getParameter("action");
@@ -38,14 +38,11 @@ public abstract class BaseServlet extends HttpServlet {
 
             method.invoke(this,req,resp);
 
-        } catch (NoSuchMethodException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            //抛给Filter过滤器
+            throw new RuntimeException(e);
         }
-
 
     }
 

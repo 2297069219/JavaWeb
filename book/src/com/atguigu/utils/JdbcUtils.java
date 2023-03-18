@@ -20,6 +20,7 @@ import java.util.Properties;
 public class JdbcUtils  {
 
     private static DruidDataSource dataSource;
+    private static ThreadLocal<Connection> conns=new ThreadLocal<>();
 
     static {
 
@@ -40,8 +41,23 @@ public class JdbcUtils  {
 
 
     public static Connection getConnection(){
+        //确保同一个连接
+        Connection conn=conns.get();
+        if(conn==null){
+            try {
+                //从数据库连接池中获取连接
+                conn=dataSource.getConnection();
+                //保存到ThreadLocal对象中 供后面的jdbc使用
+                conns.set(conn);
+                //设置为手动管理事务
+                conn.setAutoCommit(false);
 
-        Connection conn=null;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return conn;
+/*        Connection conn=null;
 
         try {
             conn=dataSource.getConnection();
@@ -49,21 +65,68 @@ public class JdbcUtils  {
             throwables.printStackTrace();
         }
 
-        return conn;
+        return conn;*/
+    }
+
+
+    /**
+     * 提交事务并释放连接
+     */
+    public static void commitAndClose(){
+        Connection connection = conns.get();
+        if(connection!=null){
+            //不为空
+            try {
+                connection.commit();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }finally {
+                try {
+                    connection.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        }
+        //一定要执行remove Tomcat底层使用了线程池
+        conns.remove();
     }
 
     /**
-     * 关闭
-     * @param conn
+     * 回滚事务并关闭释放连接
      */
-    public static void close(Connection conn){
-        if (conn != null) {
+    public static void rollbackAndClose(){
+        Connection connection = conns.get();
+        if(connection!=null){
+            //不为空
             try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+                //回滚事务
+                connection.rollback();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }finally {
+                try {
+                    connection.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         }
+        //一定要执行remove Tomcat底层使用了线程池
+        conns.remove();
     }
+//    /**
+//     * 关闭
+//     * @param conn
+//     */
+//    public static void close(Connection conn){
+//        if (conn != null) {
+//            try {
+//                conn.close();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
 }
