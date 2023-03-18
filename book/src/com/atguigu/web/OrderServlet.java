@@ -5,6 +5,7 @@ import com.atguigu.pojo.Cart;
 import com.atguigu.pojo.User;
 import com.atguigu.service.OrderService;
 import com.atguigu.service.impl.OrderServiceImpl;
+import com.atguigu.utils.JdbcUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -41,9 +42,18 @@ public class OrderServlet extends BaseServlet {
             req.getRequestDispatcher("/pages/user/login.jsp").forward(req,resp);
             return ;
         }
+        System.out.println("OrderServlet程序在【"+Thread.currentThread().getName()+"】中");
+
         Integer userId = loginUser.getId();
 
-        String orderId = orderService.createOrder(cart, userId);
+        String orderId = null;
+        try {
+            orderId = orderService.createOrder(cart, userId);
+            JdbcUtils.commitAndClose();
+        } catch (Exception e) {
+            JdbcUtils.rollbackAndClose();
+            e.printStackTrace();
+        }
 
 //        req.setAttribute("orderId",orderId);
 

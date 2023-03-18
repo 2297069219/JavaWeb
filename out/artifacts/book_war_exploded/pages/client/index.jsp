@@ -95,7 +95,7 @@
 					</div>
 					<div class="book_sales">
 						<span class="sp1">销量:</span>
-						<span class="sp2">${book.sales}}</span>
+						<span class="sp2">${book.sales}</span>
 					</div>
 					<div class="book_amount">
 						<span class="sp1">库存:</span>
